@@ -119,10 +119,15 @@
         text-align: center;
       }
 
-      .logo {
+      .logo,
+      .slogan {
         font-weight: 900;
         text-transform: uppercase;
         text-align: left;
+
+        em {
+          font-style: normal;
+        }
       }
 
       h2 {
@@ -135,11 +140,24 @@
         font-weight: 400;
         text-align: left;
         font-style: italic;
+
+        &.slogan {
+          font-family: unset;
+          font-style: unset;
+          font-weight: 900;
+          text-transform: uppercase;
+          text-align: left;
+        }
       }
 
       @media (max-width: 576px) {
-        .logo {
+        .logo,
+        .slogan {
           font-size: 6.6vw;
+
+          em {
+            font-size: 6.92vw;
+          }
         }
 
         h1 {
@@ -152,8 +170,13 @@
       }
 
       @media (min-width: 576px) {
-        .logo {
+        .logo,
+        .slogan {
           font-size: 6.6vw;
+
+          em {
+            font-size: 6.92vw;
+          }
         }
 
         h1 {
@@ -166,8 +189,13 @@
       }
 
       @media (min-width: 768px) {
-        .logo {
-          font-size: 4vw;
+        .logo,
+        .slogan {
+          font-size: 5.2vw;
+
+          em {
+            font-size: 5.48vw;
+          }
         }
 
         h1 {
@@ -180,8 +208,13 @@
       }
 
       @media (min-width: 992px) {
-        .logo {
-          font-size: 4.4vw;
+        .logo,
+        .slogan {
+          font-size: 5.5vw;
+
+          em {
+            font-size: 5.8vw;
+          }
         }
 
         h1 {
@@ -194,8 +227,13 @@
       }
 
       @media (min-width: 1200px) {
-        .logo {
-          font-size: 4.6vw;
+        .logo,
+        .slogan {
+          font-size: 5.5vw;
+
+          em {
+            font-size: 5.8vw;
+          }
         }
 
         h1 {
@@ -208,8 +246,13 @@
       }
 
       @media (min-width: 1400px) {
-        .logo {
-          font-size: 4.4vw;
+        .logo,
+        .slogan {
+          font-size: 4.8vw;
+
+          em {
+            font-size: 5.07vw;
+          }
         }
 
         h1 {
@@ -252,9 +295,9 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="logo mt-0 mb-0">Cyprus Fashion Photographer</h1>
+          <h1 class="logo mt-2 mb-0">Cyprus Fashion <em>Photographer</em></h1>
 
-          <p class="mt-4">
+          <p class="mt-5">
             Creating stylish photographs in Cyprus for your social media and
             portfolio in Paphos, Limassol, Larnaca, Ayia Napa, and all of
             Cyprus.
@@ -1276,6 +1319,8 @@
               >@CyprusFashionPhotographer</a
             >
           </p>
+
+          <p class="slogan mt-5 mb-0">Style is soul, photographed</p>
 
           <div class="text-left mb-5 mt-5">
             <small class="text-muted small"
