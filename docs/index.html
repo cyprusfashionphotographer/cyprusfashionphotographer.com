@@ -1078,9 +1078,23 @@
       }
 
       function updateURL(index) {
-        // Use a unique identifier if possible, otherwise index
-        // Here we use index + 1 for user friendliness
-        window.location.hash = `photo-${index + 1}`;
+        const imageElement = images[index];
+        const src = imageElement.getAttribute('src');
+        const setMatch = src.match(/photos\/set(\d+)\//);
+
+        if (setMatch) {
+          const setNumber = setMatch[1];
+          // Count how many images from this set appear before the current one
+          const photoNumber = Array.from(images)
+            .slice(0, index)
+            .filter(img => img.getAttribute('src').includes(`/set${setNumber}/`))
+            .length + 1;
+
+          window.location.hash = `portfolio-set-${setNumber}-photograph-${photoNumber}`;
+        } else {
+          // Fallback if set pattern doesn't match
+          window.location.hash = `photo-${index + 1}`;
+        }
       }
 
       // Event Listeners
@@ -1112,10 +1126,29 @@
 
       // Check URL hash on load
       const hash = window.location.hash;
-      if (hash && hash.startsWith('#photo-')) {
-        const index = parseInt(hash.replace('#photo-', '')) - 1;
-        if (!isNaN(index) && index >= 0 && index < images.length) {
-          openLightbox(index);
+      if (hash) {
+        // Match #portfolio-set-<setNumber>-photograph-<photoNumber>
+        const match = hash.match(/#portfolio-set-(\d+)-photograph-(\d+)/);
+        if (match) {
+          const setNumber = match[1];
+          const photoNumber = parseInt(match[2]);
+
+          // Find the image that corresponds to this set and photo number
+          const setImages = Array.from(images).filter(img => img.getAttribute('src').includes(`/set${setNumber}/`));
+          const targetImage = setImages[photoNumber - 1];
+
+          if (targetImage) {
+            const targetIndex = Array.from(images).indexOf(targetImage);
+            if (targetIndex !== -1) {
+              openLightbox(targetIndex);
+            }
+          }
+        } else if (hash.startsWith('#photo-')) {
+          // Legacy support or fallback
+          const index = parseInt(hash.replace('#photo-', '')) - 1;
+          if (!isNaN(index) && index >= 0 && index < images.length) {
+            openLightbox(index);
+          }
         }
       }
     });
