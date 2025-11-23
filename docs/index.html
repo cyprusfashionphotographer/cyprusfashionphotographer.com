@@ -275,7 +275,7 @@
       cursor: zoom-in;
     }
 
-    #lightbox {
+    [data-lightbox="container"] {
       position: fixed;
       top: 0;
       left: 0;
@@ -288,11 +288,11 @@
       z-index: 1000;
     }
 
-    #lightbox.active {
+    [data-lightbox="container"].active {
       display: flex;
     }
 
-    #lightbox img {
+    [data-lightbox="container"] img {
       max-width: 90%;
       max-height: 90%;
       margin: auto;
@@ -300,7 +300,7 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     }
 
-    #lightbox-close {
+    [data-lightbox="close"] {
       position: absolute;
       top: 20px;
       right: 30px;
@@ -322,11 +322,11 @@
       z-index: 1001;
     }
 
-    #lightbox-prev {
+    [data-lightbox="prev"] {
       left: 20px;
     }
 
-    #lightbox-next {
+    [data-lightbox="next"] {
       right: 20px;
     }
   </style>
@@ -1024,21 +1024,22 @@
     </div>
   </div>
   <!-- Lightbox HTML -->
-  <div id="lightbox">
-    <span id="lightbox-close">&times;</span>
-    <div id="lightbox-prev" class="lightbox-nav">&#10094;</div>
-    <img id="lightbox-img" src="" alt="Lightbox Image">
-    <div id="lightbox-next" class="lightbox-nav">&#10095;</div>
+  <!-- Lightbox HTML -->
+  <div data-lightbox="container">
+    <span data-lightbox="close">&times;</span>
+    <div data-lightbox="prev" class="lightbox-nav">&#10094;</div>
+    <img data-lightbox="image" src="" alt="Lightbox Image">
+    <div data-lightbox="next" class="lightbox-nav">&#10095;</div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const images = document.querySelectorAll('img[src^="./photos/"]');
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      const closeBtn = document.getElementById('lightbox-close');
-      const prevBtn = document.getElementById('lightbox-prev');
-      const nextBtn = document.getElementById('lightbox-next');
+      const lightbox = document.querySelector('[data-lightbox="container"]');
+      const lightboxImage = document.querySelector('[data-lightbox="image"]');
+      const closeBtn = document.querySelector('[data-lightbox="close"]');
+      const prevBtn = document.querySelector('[data-lightbox="prev"]');
+      const nextBtn = document.querySelector('[data-lightbox="next"]');
 
       let currentIndex = -1;
 
@@ -1054,8 +1055,8 @@
         if (index < 0 || index >= images.length) return;
         currentIndex = index;
         const imageElement = images[index];
-        lightboxImg.src = imageElement.src;
-        lightboxImg.alt = imageElement.alt;
+        lightboxImage.src = imageElement.src;
+        lightboxImage.alt = imageElement.alt;
         lightbox.classList.add('active');
         updateURL(index);
       }
@@ -1087,7 +1088,7 @@
           // Count how many images from this set appear before the current one
           const photoNumber = Array.from(images)
             .slice(0, index)
-            .filter(img => img.getAttribute('src').includes(`/set${setNumber}/`))
+            .filter(image => image.getAttribute('src').includes(`/set${setNumber}/`))
             .length + 1;
 
           window.location.hash = `portfolio-set-${setNumber}-photograph-${photoNumber}`;
@@ -1110,7 +1111,7 @@
       });
 
       // Click on image to go next
-      lightboxImg.addEventListener('click', (event) => {
+      lightboxImage.addEventListener('click', (event) => {
         event.stopPropagation();
         showNext();
       });
@@ -1134,7 +1135,7 @@
           const photoNumber = parseInt(match[2]);
 
           // Find the image that corresponds to this set and photo number
-          const setImages = Array.from(images).filter(img => img.getAttribute('src').includes(`/set${setNumber}/`));
+          const setImages = Array.from(images).filter(image => image.getAttribute('src').includes(`/set${setNumber}/`));
           const targetImage = setImages[photoNumber - 1];
 
           if (targetImage) {
