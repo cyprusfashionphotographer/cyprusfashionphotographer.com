@@ -1043,9 +1043,9 @@
       let currentIndex = -1;
 
       // Add cursor style and click event to images
-      images.forEach((img, index) => {
-        img.classList.add('gallery-img');
-        img.addEventListener('click', () => {
+      images.forEach((imageElement, index) => {
+        imageElement.classList.add('gallery-img');
+        imageElement.addEventListener('click', () => {
           openLightbox(index);
         });
       });
@@ -1053,9 +1053,9 @@
       function openLightbox(index) {
         if (index < 0 || index >= images.length) return;
         currentIndex = index;
-        const img = images[index];
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
+        const imageElement = images[index];
+        lightboxImg.src = imageElement.src;
+        lightboxImg.alt = imageElement.alt;
         lightbox.classList.add('active');
         updateURL(index);
       }
@@ -1085,29 +1085,29 @@
 
       // Event Listeners
       closeBtn.addEventListener('click', closeLightbox);
-      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
-      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+      nextBtn.addEventListener('click', (event) => { event.stopPropagation(); showNext(); });
+      prevBtn.addEventListener('click', (event) => { event.stopPropagation(); showPrev(); });
 
       // Click outside image to close
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
           closeLightbox();
         }
       });
 
       // Click on image to go next
-      lightboxImg.addEventListener('click', (e) => {
-        e.stopPropagation();
+      lightboxImg.addEventListener('click', (event) => {
+        event.stopPropagation();
         showNext();
       });
 
       // Keyboard Navigation
-      document.addEventListener('keydown', (e) => {
+      document.addEventListener('keydown', (event) => {
         if (!lightbox.classList.contains('active')) return;
 
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') showNext();
-        if (e.key === 'ArrowLeft') showPrev();
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowRight') showNext();
+        if (event.key === 'ArrowLeft') showPrev();
       });
 
       // Check URL hash on load
