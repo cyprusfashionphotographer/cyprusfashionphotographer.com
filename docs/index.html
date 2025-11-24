@@ -1179,6 +1179,7 @@
 
       function closeLightbox() {
         lightbox.classList.remove('active');
+        lightboxImage.src = '';
         history.pushState("", document.title, window.location.pathname + window.location.search);
       }
 
